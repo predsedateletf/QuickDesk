@@ -1,26 +1,8 @@
 name: QuickDesk macOS
 
 on:
-  push:
-    paths:
-      - 'QuickDesk/**'
-      - 'quickdesk-mcp/**'
-      - 'cmake/**'
-      - 'scripts/**'
-      - 'WebClient/**'
-      - 'CMakeLists.txt'
-      - 'test/file-transfer/**'
-      - '.github/workflows/quickdesk-macos.yml'
-  pull_request:
-    paths:
-      - 'QuickDesk/**'
-      - 'quickdesk-mcp/**'
-      - 'cmake/**'
-      - 'scripts/**'
-      - 'WebClient/**'
-      - 'CMakeLists.txt'
-      - 'test/file-transfer/**'
-      - '.github/workflows/quickdesk-macos.yml'
+  # macOS-сборка нам не нужна (парк Windows), запускаем только вручную,
+  # чтобы не занимать раннеры и не тратить минуты на каждый push.
   workflow_dispatch:
 
 permissions:
