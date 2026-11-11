@@ -21,6 +21,32 @@ ApplicationWindow {
         id: controller
     }
 
+    // Значок в трее: без него свёрнутая касса «пропадает» и её не вернуть.
+    Connections {
+        target: SystemTrayManager
+
+        function onShowWindowRequested() {
+            root.show()
+            root.raise()
+            root.requestActivate()
+        }
+    }
+
+    function hideToTray() {
+        SystemTrayManager.minimizeToTray()
+        root.hide()
+    }
+
+    // Без этого вызова хост не стартует: не будет ни связи, ни ID станции.
+    Component.onCompleted: {
+        mainController.initialize()
+    }
+
+    onClosing: function(close) {
+        close.accepted = false
+        hideToTray()
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 24
@@ -71,7 +97,7 @@ ApplicationWindow {
 
             Button {
                 text: qsTr("Свернуть")
-                onClicked: root.hide()
+                onClicked: root.hideToTray()
             }
 
             Item { Layout.fillWidth: true }
@@ -82,10 +108,5 @@ ApplicationWindow {
                 font.pixelSize: 11
             }
         }
-    }
-
-    onClosing: function(close) {
-        close.accepted = false
-        root.hide()
     }
 }
