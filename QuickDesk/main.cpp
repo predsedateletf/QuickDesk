@@ -122,6 +122,8 @@ int main(int argc, char *argv[])
             return provider;
         });
 
+    qmlRegisterType<quickdesk::AddressBookManager>("QuickDesk", 1, 0, "AddressBookManager");
+
     QQmlApplicationEngine engine;
     
     // Register cursor image provider

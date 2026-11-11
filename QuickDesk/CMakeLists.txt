@@ -104,6 +104,8 @@ set(CORE_SOURCES
     src/core/localconfigcenter.cpp
     src/core/pospolicy.h
     src/core/pospolicy.cpp
+    src/core/addressbook.h
+    src/core/addressbook.cpp
     src/core/userdatacenter.h
     src/core/userdatacenter.cpp
 )
@@ -187,6 +189,7 @@ qt_add_qml_module(QuickDesk
         qml/views/RemoteWindow.qml
         qml/views/Example.qml
         qml/pages/RemoteControlPage.qml
+        qml/pages/AddressBookPage.qml
         qml/pages/SettingsPage.qml
         qml/pages/AboutPage.qml
         qml/pages/DeviceListPage.qml

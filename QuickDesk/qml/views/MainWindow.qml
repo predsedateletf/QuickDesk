@@ -337,6 +337,7 @@ ApplicationWindow {
             menuItems: [
                 { icon: FluentIconGlyph.remoteGlyph, text: qsTr("Remote Control") },
                 { icon: FluentIconGlyph.contactInfoGlyph, text: qsTr("Device List") },
+                { icon: FluentIconGlyph.contactInfoGlyph, text: qsTr("Адресная книга") },
                 { icon: FluentIconGlyph.settingsGlyph, text: qsTr("Settings") },
                 { icon: FluentIconGlyph.infoGlyph, text: qsTr("About") }
             ]
@@ -623,6 +624,23 @@ ApplicationWindow {
                     mainController: root.mainController
 
                     onConnectToDevice: function(deviceId, accessCode) {
+                        navigationView.currentIndex = 0
+                        remoteControlPage.connectWithCredentials(deviceId, accessCode)
+                    }
+
+                    onShowToast: function(message, toastType) {
+                        toast.show(message, toastType)
+                    }
+                }
+
+                // Address Book Page
+                AddressBookPage {
+                    id: addressBookPage
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    mainController: root.mainController
+
+                    onConnectRequested: function(deviceId, accessCode) {
                         navigationView.currentIndex = 0
                         remoteControlPage.connectWithCredentials(deviceId, accessCode)
                     }
