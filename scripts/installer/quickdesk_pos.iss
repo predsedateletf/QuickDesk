@@ -67,4 +67,8 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
   ValueName: "QuickDeskPOS"; ValueData: """{app}\{#MyAppExeName}"""; Flags: uninsdeletevalue; Tasks: autostart
 
 [Run]
+; Служба QuickDeskHost работает от SYSTEM: без неё при блокировке рабочего стола
+; касса перестаёт отдавать экран и ввод (Winlogon desktop доступен только SYSTEM).
+Filename: "{app}\quickdesk_host.exe"; Parameters: "--install-service --log-dir=""{userappdata}\QuickDesk\logs"" --config-dir=""{userappdata}\QuickDesk"""; StatusMsg: "Установка службы QuickDeskHost..."; Flags: runhidden waituntilterminated
+Filename: "sc.exe"; Parameters: "start QuickDeskHost"; StatusMsg: "Запуск службы QuickDeskHost..."; Flags: runhidden waituntilterminated
 Filename: "{app}\{#MyAppExeName}"; Description: "Запустить кассу сейчас"; Flags: nowait postinstall skipifsilent

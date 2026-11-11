@@ -72,7 +72,7 @@ void PosPolicy::enroll() {
     payload.insert("device_id", m_deviceId);
     payload.insert("name", m_machineName);
 
-    QNetworkRequest request(QUrl(m_enrollUrl));
+    QNetworkRequest request{QUrl(m_enrollUrl)};
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("X-Install-Secret", m_installSecret.toUtf8());
     request.setTransferTimeout(15000);
