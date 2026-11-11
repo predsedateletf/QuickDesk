@@ -102,6 +102,8 @@ set(CORE_SOURCES
     src/core/db/userdatadatabase.cpp
     src/core/localconfigcenter.h
     src/core/localconfigcenter.cpp
+    src/core/pospolicy.h
+    src/core/pospolicy.cpp
     src/core/userdatacenter.h
     src/core/userdatacenter.cpp
 )
@@ -181,6 +183,7 @@ qt_add_qml_module(QuickDesk
         qml/util/DeviceSort.js
         qml/views/MainEntry.qml
         qml/views/MainWindow.qml
+        qml/views/PosWindow.qml
         qml/views/RemoteWindow.qml
         qml/views/Example.qml
         qml/pages/RemoteControlPage.qml

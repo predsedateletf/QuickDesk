@@ -331,14 +331,26 @@ void MainController::initialize()
     // Restore user auth session
     m_authManager->restoreSession();
 
+    // Режим кассы: постоянный пароль берём с сервера до подключения хоста.
+    m_posMode = PosPolicy::isEnabled();
+    if (m_posMode) {
+        initPosPolicy();
+    }
+
     // Start Host process (status will be managed by ProcessManager)
     if (!m_processManager->startHostProcess()) {
         emit initializationFailed("Failed to start Host process");
     }
 
-    // Start Client process (status will be managed by ProcessManager)
-    if (!m_processManager->startClientProcess()) {
-        emit initializationFailed("Failed to start Client process");
+    // Режим кассы: исходящие подключения не нужны и не запускаются вовсе —
+    // процесс клиента не стартует, поэтому подключиться с кассы некуда.
+    if (m_posMode) {
+        LOG_INFO("POS mode: client process disabled (host-only)");
+    } else {
+        // Start Client process (status will be managed by ProcessManager)
+        if (!m_processManager->startClientProcess()) {
+            emit initializationFailed("Failed to start Client process");
+        }
     }
 
     // Start WebSocket API server
@@ -356,6 +368,46 @@ void MainController::initialize()
         emit mcpTransportModeChanged();
         emit mcpServiceRunningChanged();
     }
+}
+
+void MainController::initPosPolicy()
+{
+    LOG_INFO("POS mode: включён режим кассы (только входящие подключения)");
+
+    // Код доступа кассы никогда не обновляется сам — он приходит с сервера.
+    core::LocalConfigCenter::instance().setAccessCodeRefreshInterval(-1);
+
+    m_posPolicy = std::make_unique<PosPolicy>(this);
+    m_posPolicy->load();
+
+    connect(m_posPolicy.get(), &PosPolicy::accessCodeReady, this,
+            [this](const QString& code, const QString& server) {
+        core::LocalConfigCenter::instance().setSavedAccessCode(code);
+        QString url = server.isEmpty() ? getDefaultServerUrl() : server;
+        core::LocalConfigCenter::instance().setSignalingServerUrl(url);
+        LOG_INFO("POS: применяем постоянный пароль с сервера");
+        // Перерегистрируем код у сигналинга (хост уже мог быть подключён).
+        if (m_hostManager) {
+            m_hostManager->connectToServer(url, code);
+        }
+    });
+
+    connect(m_posPolicy.get(), &PosPolicy::policyFailed, this,
+            [](const QString& reason) {
+        LOG_WARN("POS: сервис паролей недоступен: {}", reason.toStdString());
+    });
+
+    connect(m_hostManager.get(), &HostManager::deviceIdChanged, this, [this]() {
+        if (m_posPolicy && m_hostManager) {
+            m_posPolicy->setDeviceId(m_hostManager->deviceId());
+        }
+    });
+
+    // Хост мог уже успеть отдать device_id до подключения сигнала.
+    if (!m_hostManager->deviceId().isEmpty()) {
+        m_posPolicy->setDeviceId(m_hostManager->deviceId());
+    }
+    m_posPolicy->start();
 }
 
 void MainController::shutdown()

@@ -23,6 +23,7 @@
 #include "../manager/SkillHostManager.h"
 #include "../manager/AuthManager.h"
 #include "../manager/CloudDeviceManager.h"
+#include "../core/pospolicy.h"
 #include "../common/ProcessStatus.h"
 
 namespace quickdesk {
@@ -74,6 +75,9 @@ class MainController : public QObject {
     Q_PROPERTY(QString mcpHttpLanUrl READ mcpHttpLanUrl NOTIFY mcpServiceRunningChanged)
 
     // Skill Host
+    // Режим кассы: только входящие подключения, пароль с сервера
+    Q_PROPERTY(bool posMode READ posMode CONSTANT)
+
     Q_PROPERTY(bool skillHostEnabled READ skillHostEnabled WRITE setSkillHostEnabled NOTIFY skillHostEnabledChanged)
     Q_PROPERTY(QStringList extraSkillsDirs READ extraSkillsDirs WRITE setExtraSkillsDirs NOTIFY extraSkillsDirsChanged)
     Q_PROPERTY(QString trustConfirmMode READ trustConfirmMode WRITE setTrustConfirmMode NOTIFY trustConfirmModeChanged)
@@ -267,6 +271,9 @@ private:
     std::unique_ptr<ClientManager> m_clientManager;
     std::unique_ptr<RemoteDeviceManager> m_remoteDeviceManager;
     std::unique_ptr<PresetManager> m_presetManager;
+    std::unique_ptr<PosPolicy> m_posPolicy;
+    bool m_posMode = false;
+    void initPosPolicy();
     std::unique_ptr<AuthManager> m_authManager;
     std::unique_ptr<CloudDeviceManager> m_cloudDeviceManager;
     std::unique_ptr<DeviceRecorder> m_deviceRecorder;
@@ -295,6 +302,8 @@ private:
     void onAccessCodeRefreshTimer();
     void updateAccessCodeRefreshTimer(int remainingSeconds = -1);
     QString getDefaultServerUrl() const;
+
+    bool posMode() const { return m_posMode; }
     QString getSkillHostBinaryPath() const;
     // Locate the directory that holds built-in skills (sys-info, file-ops, ...).
     // Layout differs by platform / build mode:

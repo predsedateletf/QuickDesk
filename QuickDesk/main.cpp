@@ -141,7 +141,10 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     // Load main QML
-    engine.loadFromModule("QuickDesk", "MainWindow");
+    // Касса (рядом с exe лежит pos.ini) стартует в режиме только входящих.
+    const bool posMode = quickdesk::PosPolicy::isEnabled();
+    LOG_INFO("Starting UI: {}", posMode ? "POS" : "desktop");
+    engine.loadFromModule("QuickDesk", posMode ? "PosWindow" : "MainWindow");
     LOG_INFO("QuickDesk started successfully");
     
     int runRet = app.exec();
