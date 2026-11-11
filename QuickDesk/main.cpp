@@ -11,6 +11,7 @@
 #include <QtQuickControls2/QQuickStyle>
 
 #include "core/localconfigcenter.h"
+#include "core/addressbook.h"
 #include "core/userdatacenter.h"
 #include "infra/env/applicationcontext.h"
 #include "infra/log/log.h"
