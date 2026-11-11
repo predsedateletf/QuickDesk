@@ -28,7 +28,7 @@ void LanguageManage::init()
 QStringList LanguageManage::getSupportLanguages()
 {
     QStringList languages;
-    languages << "Auto" << "zh_CN" << "en_US";
+    languages << "Auto" << "zh_CN" << "en_US" << "ru_RU";
     return languages;
 }
 
@@ -52,6 +52,8 @@ QString LanguageManage::getCurrentRealLanguage()
             language = "zh_CN";
         } else if (systemLanguage == QLocale::English) {
             language = "en_US";
+        } else if (systemLanguage == QLocale::Russian) {
+            language = "ru_RU";
         }
     }
     return language;
@@ -65,6 +67,9 @@ QString LanguageManage::getLanguageName(const QString& language)
     if (language == "en_US") {
         return "English";
     }
+    if (language == "ru_RU") {
+        return u8"Русский";
+    }
     return tr("Auto");
 }
 
@@ -77,6 +82,9 @@ void LanguageManage::installLanguage()
     }
     if (configLanguage == "en_US") {
         language = QLocale::English;
+    }
+    if (configLanguage == "ru_RU") {
+        language = QLocale::Russian;
     }
 
     installTranslator(language);
@@ -101,12 +109,18 @@ void LanguageManage::installTranslator(const QLocale::Language& language)
 {
     static QTranslator zhCnTranslator;
     static QTranslator enUsTranslator;
+    static QTranslator ruRuTranslator;
     QTranslator* translator = nullptr;
     if (language == QLocale::Chinese) {
         if (zhCnTranslator.isEmpty()) {
             (void)zhCnTranslator.load(kLanguagePath + "zh_CN.qm");
         }
         translator = &zhCnTranslator;
+    } else if (language == QLocale::Russian) {
+        if (ruRuTranslator.isEmpty()) {
+            (void)ruRuTranslator.load(kLanguagePath + "ru_RU.qm");
+        }
+        translator = &ruRuTranslator;
     } else {
         if (enUsTranslator.isEmpty()) {
             (void)enUsTranslator.load(kLanguagePath + "en_US.qm");

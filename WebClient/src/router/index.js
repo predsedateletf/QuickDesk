@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import RemotePage from '../views/RemotePage.vue'
 import DevicesPage from '../views/DevicesPage.vue'
+import ContactsPage from '../views/ContactsPage.vue'
 import RecordingsPage from '../views/RecordingsPage.vue'
 import AccountPage from '../views/AccountPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
@@ -11,6 +12,7 @@ const routes = [
   { path: '/', redirect: '/remote' },
   { path: '/remote', component: RemotePage },
   { path: '/devices', component: DevicesPage },
+  { path: '/contacts', component: ContactsPage },
   { path: '/recordings', component: RecordingsPage },
   { path: '/account', component: AccountPage },
   { path: '/settings', component: SettingsPage },

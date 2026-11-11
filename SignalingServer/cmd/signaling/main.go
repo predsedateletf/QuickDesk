@@ -78,6 +78,7 @@ func main() {
 			&models.AuditLog{},
 			&models.Settings{},
 			&models.DeviceGroup{},
+			&models.TeamContact{},
 			&models.DeviceGroupMember{},
 			&models.Webhook{},
 			&models.Preset{},
@@ -183,6 +184,7 @@ func main() {
 	publicHandler := handler.NewPublicHandler(db, redisClient, presetService, settingsService, smsService, Version)
 	authHandler := handler.NewAuthHandler(userService, tokenService, smsService, bus)
 	meHandler := handler.NewMeHandler(userService, tokenService, smsService, bus)
+	teamContactHandler := handler.NewTeamContactHandler(db)
 	deviceHandler := handler.NewDeviceHandler(deviceService, favoriteService, connectionService, presenceService, bus, db)
 	sessionRecordingHandler := handler.NewSessionRecordingHandler(sessionRecordingService, bus, handler.SessionRecordingStore{
 		Dir:       cfg.Recording.Dir,
@@ -280,6 +282,11 @@ func main() {
 			me.GET("/sessions", meHandler.ListSessions)
 			me.DELETE("/sessions/current", meHandler.DeleteCurrentSession)
 			me.DELETE("/sessions/:session_id", meHandler.DeleteSessionByID)
+
+			me.GET("/team-contacts", teamContactHandler.List)
+			me.POST("/team-contacts", teamContactHandler.Create)
+			me.PATCH("/team-contacts/:id", teamContactHandler.Update)
+			me.DELETE("/team-contacts/:id", teamContactHandler.Delete)
 
 			me.GET("/devices", deviceHandler.ListMine)
 			me.POST("/devices", deviceHandler.Bind)

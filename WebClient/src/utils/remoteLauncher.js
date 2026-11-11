@@ -14,7 +14,7 @@
 
 export function openRemoteSession({ deviceId, signalToken, accessCode, remoteOs = '' }) {
   const serverUrl = localStorage.getItem('quickdesk_signaling_url')
-    || 'wss://qdsignaling.quickcoder.cc'
+    || 'wss://qd.lyashenko.pw'
   const codec = localStorage.getItem('quickdesk_video_codec') || 'AV1'
 
   // Stash the access_code keyed by signal_token so the remote window can

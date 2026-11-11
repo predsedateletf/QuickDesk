@@ -379,6 +379,12 @@ class UserApi {
 
   fetchMyDevices() { return this._req('GET', '/v1/me/devices') }
 
+  // ----- общая адресная книга команды -------------------------------------
+  fetchTeamContacts() { return this._req('GET', '/v1/me/team-contacts') }
+  createTeamContact(payload) { return this._req('POST', '/v1/me/team-contacts', payload) }
+  updateTeamContact(id, payload) { return this._req('PATCH', `/v1/me/team-contacts/${id}`, payload) }
+  deleteTeamContact(id) { return this._req('DELETE', `/v1/me/team-contacts/${id}`) }
+
   fetchMyDevice(deviceId) {
     return this._req('GET', `/v1/me/devices/${encodeURIComponent(deviceId)}`)
   }

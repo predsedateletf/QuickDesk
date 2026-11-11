@@ -30,6 +30,7 @@
         <select class="lang-select" :value="locale" @change="onLangChange">
           <option value="zh-CN">中文</option>
           <option value="en-US">English</option>
+          <option value="ru-RU">Русский</option>
         </select>
       </div>
     </nav>
@@ -81,6 +82,7 @@ const navItems = computed(() => {
   const items = [
     { path: '/remote', icon: '🖥️', label: 'nav.remote' },
     { path: '/devices', icon: '📱', label: 'nav.devices' },
+    { path: '/contacts', icon: '📒', label: 'nav.contacts' },
     { path: '/recordings', icon: '🎬', label: 'nav.recordings' },
   ]
   if (authState.isLoggedIn) {
@@ -130,6 +132,7 @@ async function onLogout() {
 
 function onLangChange(e) {
   locale.value = e.target.value
+  localStorage.setItem('quickdesk_lang', e.target.value)
   localStorage.setItem('quickdesk_lang', e.target.value)
 }
 
