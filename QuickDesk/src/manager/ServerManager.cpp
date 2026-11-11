@@ -10,7 +10,7 @@ namespace quickdesk {
 namespace {
 
 constexpr char kLegacyOfficialServerUrl[] = "ws://qdsignaling.quickcoder.cc:8060";
-constexpr char kOfficialServerUrl[] = "wss://qdsignaling.quickcoder.cc";
+constexpr char kOfficialServerUrl[] = "wss://qd.lyashenko.pw";
 
 } // namespace
 

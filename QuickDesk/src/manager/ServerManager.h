@@ -39,7 +39,7 @@ signals:
     void statusChanged();
 
 private:
-    QString m_serverUrl = "wss://qdsignaling.quickcoder.cc";
+    QString m_serverUrl = "wss://qd.lyashenko.pw";
     QString m_status = "已配置";
 
     void updateStatus(const QString& status);
