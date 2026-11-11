@@ -124,6 +124,23 @@ jobs:
           echo "version=$(cat version)" >> $GITHUB_OUTPUT
           echo "ref-name=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
 
+      - name: Package POS installer (касса)
+        shell: pwsh
+        run: |
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          $publish = (Resolve-Path "publish\Release").Path
+          $out = (Resolve-Path "publish").Path
+          $icon = (Resolve-Path "QuickDesk\res\QuickDesk.ico").Path
+          $version = (Get-Content version -Raw).Trim()
+          & $iscc "/DMyAppVersion=$version" "/DMyPublishDir=$publish" "/DMyOutputDir=$out" "/DMyIconPath=$icon" "scripts\installer\quickdesk_pos.iss"
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+      - name: Upload POS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: QuickDesk-POS-${{ steps.version.outputs.ref-name }}
+          path: publish/QuickDesk-POS-setup.exe
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
