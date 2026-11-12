@@ -33,8 +33,8 @@
           <el-tag size="small">{{ user.level }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item :label="t('userMgmt.channelType')">
-          <el-tag :type="user.channel_type === '全球' ? 'success' : 'warning'" size="small">
-            {{ user.channel_type === '全球' ? t('userMgmt.channelGlobal') : t('userMgmt.channelChina') }}
+          <el-tag :type="user.channel_type === '中国大陆' ? 'warning' : 'success'" size="small">
+            {{ user.channel_type === '中国大陆' ? t('userMgmt.channelChina') : t('userMgmt.channelGlobal') }}
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item :label="t('userMgmt.deviceCount')">{{ user.device_count }}</el-descriptions-item>

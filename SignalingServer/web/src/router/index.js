@@ -12,6 +12,8 @@ import AuditLogPage from '../views/AuditLogPage.vue'
 import SystemLogsPage from '../views/SystemLogsPage.vue'
 import WebhooksPage from '../views/WebhooksPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
+import PosPage from '../views/PosPage.vue'
+import BooksPage from '../views/BooksPage.vue'
 
 const routes = [
   { path: '/login', name: 'Login', component: LoginPage, meta: { public: true } },
@@ -27,6 +29,8 @@ const routes = [
   { path: '/audit-logs', name: 'AuditLogs', component: AuditLogPage, meta: { title: 'nav.auditLogs' } },
   { path: '/system-logs', name: 'SystemLogs', component: SystemLogsPage, meta: { title: 'nav.systemLogs' } },
   { path: '/webhooks', name: 'Webhooks', component: WebhooksPage, meta: { title: 'nav.webhooks' } },
+  { path: '/pos', name: 'Pos', component: PosPage, meta: { title: 'nav.pos' } },
+  { path: '/books', name: 'Books', component: BooksPage, meta: { title: 'nav.books' } },
   { path: '/settings', name: 'Settings', component: SettingsPage, meta: { title: 'nav.settings' } }
 ]
 

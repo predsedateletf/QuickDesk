@@ -54,6 +54,14 @@
           <el-icon><LinkIcon /></el-icon>
           <span v-if="!isMobile">{{ t('nav.webhooks') }}</span>
         </el-menu-item>
+        <el-menu-item index="/books" :route="{ path: '/books' }">
+          <el-icon><Notebook /></el-icon>
+          <span v-if="!isMobile">{{ t('nav.books') }}</span>
+        </el-menu-item>
+        <el-menu-item index="/pos" :route="{ path: '/pos' }">
+          <el-icon><Key /></el-icon>
+          <span v-if="!isMobile">{{ t('nav.pos') }}</span>
+        </el-menu-item>
         <el-menu-item index="/settings" :route="{ path: '/settings' }">
           <el-icon><Tools /></el-icon>
           <span v-if="!isMobile">{{ t('nav.settings') }}</span>
@@ -64,10 +72,12 @@
           <el-dropdown v-if="!isMobile" trigger="click" @command="onLocaleCommand">
             <span class="locale-trigger">
               <el-icon><Connection /></el-icon>
-              <span>{{ currentLocale === 'zh-CN' ? '中文' : 'EN' }}</span>
+              <span>{{ currentLocale === 'zh-CN' ? '中文' : (currentLocale === 'ru-RU' ? 'RU' : 'EN') }}</span>
             </span>
             <template #dropdown>
               <el-dropdown-menu>
+                <el-dropdown-item command="ru-RU">Русский</el-dropdown-item>
+                <el-dropdown-item command="ru-RU">Русский</el-dropdown-item>
                 <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
                 <el-dropdown-item command="en-US">EN</el-dropdown-item>
               </el-dropdown-menu>
@@ -79,6 +89,8 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
+                <el-dropdown-item command="ru-RU">Русский</el-dropdown-item>
+                <el-dropdown-item command="ru-RU">Русский</el-dropdown-item>
                 <el-dropdown-item command="zh-CN">中文</el-dropdown-item>
                 <el-dropdown-item command="en-US">EN</el-dropdown-item>
               </el-dropdown-menu>
@@ -109,7 +121,7 @@ import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from './stores/settings.js'
 import { logout, onSessionEnded } from './api/auth.js'
 import { setLocale, getLocale } from './i18n'
-import { House, Monitor, Setting, User, UserFilled, SwitchButton, Tools, Connection, Folder, Document, Files, Link as LinkIcon } from '@element-plus/icons-vue'
+import { House, Monitor, Setting, User, UserFilled, SwitchButton, Tools, Connection, Folder, Document, Files, Link as LinkIcon, Key, Notebook } from '@element-plus/icons-vue'
 
 const { t } = useI18n()
 const route = useRoute()

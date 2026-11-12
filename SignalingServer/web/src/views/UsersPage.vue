@@ -74,8 +74,8 @@
         <el-table-column prop="device_count" :label="t('userMgmt.deviceCount')" width="100" sortable="custom" />
         <el-table-column prop="channel_type" :label="t('userMgmt.channelType')" width="110">
           <template #default="{ row }">
-            <el-tag :type="row.channel_type === '全球' ? 'success' : 'warning'" size="small">
-              {{ row.channel_type === '全球' ? t('userMgmt.channelGlobal') : t('userMgmt.channelChina') }}
+            <el-tag :type="row.channel_type === '中国大陆' ? 'warning' : 'success'" size="small">
+              {{ row.channel_type === '中国大陆' ? t('userMgmt.channelChina') : t('userMgmt.channelGlobal') }}
             </el-tag>
           </template>
         </el-table-column>
