@@ -1,12 +1,15 @@
 import { createI18n } from 'vue-i18n'
 import zhCN from './zh-CN.js'
 import enUS from './en-US.js'
+import ruRU from './ru-RU.js'
 
 function getDefaultLocale() {
   const stored = localStorage.getItem('quickdesk_admin_locale')
-  if (stored && ['zh-CN', 'en-US'].includes(stored)) return stored
-  const nav = navigator.language || navigator.userLanguage || 'en'
-  return nav.startsWith('zh') ? 'zh-CN' : 'en-US'
+  if (stored && ['zh-CN', 'en-US', 'ru-RU'].includes(stored)) return stored
+  const nav = navigator.language || navigator.userLanguage || 'ru'
+  // админка рассчитана на русскоязычных администраторов: по умолчанию русский
+  if (nav.startsWith('zh')) return 'zh-CN'
+  return 'ru-RU'
 }
 
 const i18n = createI18n({
@@ -15,7 +18,8 @@ const i18n = createI18n({
   fallbackLocale: 'en-US',
   messages: {
     'zh-CN': zhCN,
-    'en-US': enUS
+    'en-US': enUS,
+    'ru-RU': ruRU
   }
 })
 
